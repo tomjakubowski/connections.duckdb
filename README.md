@@ -6,7 +6,7 @@ Connections puzzle from `2026-02-27` in `America/New_York` time.
 [DuckDB][] is already more fun than a barrel of ducks on its own.  But
 sometimes the toil of crunching entities leaves you wanting a little side
 quest, a diversion.  What if you could take a break and play the New York Times
-connections puzzle, all without leaving your DuckDB REPL?
+Connections puzzle, all without leaving your DuckDB REPL?
 
 Introducing the first database that lets you play the New York Times
 Connections puzzle: `connections.duckdb`.
