@@ -29,15 +29,15 @@ CREATE OR REPLACE MACRO
 
 CREATE OR REPLACE MACRO
     connections_ymd_today() AS
-        connections_ymd(current_localtimestamp());
+        connections_ymd(now());
 
-CREATE VIEW todays_categories AS
+CREATE OR REPLACE VIEW todays_categories AS
     SELECT * FROM connections_categories(connections_ymd_today());
 
-CREATE VIEW todays_words AS
+CREATE OR REPLACE VIEW todays_words AS
     SELECT * from connections_words(connections_ymd_today());
 
-CREATE VIEW todays_puzzle AS
+CREATE OR REPLACE VIEW todays_puzzle AS
     SELECT * from connections_puzzle(connections_ymd_today());
 
 CREATE OR REPLACE MACRO
