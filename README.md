@@ -166,7 +166,7 @@ Connections game locally using data resident in-memory.
 
 # copyright
 
-source code (c) 2026 Tom Jakubowski, published under the MIT licensed
+source code (c) 2026 Tom Jakubowski, published under the MIT license
 
 I am a happy player and admirer of the [Connections] game which is owned by the
 New York Times and edited by Wyna Liu.
