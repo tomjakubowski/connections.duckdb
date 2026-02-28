@@ -5,8 +5,8 @@ Connections puzzle from `2026-02-27` in `America/New_York` time.
 
 [DuckDB][] is already more fun than a barrel of ducks on its own.  But
 sometimes the toil of crunching entities leaves you wanting a little side
-quest, a diversion.  What if you could take a break and play the New York Times
-Connections puzzle, all without leaving your DuckDB REPL?
+quest, a diversion.  What if you could take a break and play the [New York Times
+Connections] puzzle, all without leaving your DuckDB REPL?
 
 Introducing the first database that lets you play the New York Times
 Connections puzzle: `connections.duckdb`.
@@ -168,8 +168,9 @@ Connections game locally using data resident in-memory.
 
 source code (c) 2026 Tom Jakubowski, published under the MIT licensed
 
-I am a happy player and admirer of the Connections game which is owned by the
+I am a happy player and admirer of the [Connections] game which is owned by the
 New York Times and edited by Wyna Liu.
 
 [DuckDB]: <https://duckdb.org/>
+[New York Times Connections]: <https://www.nytimes.com/games/connections>
 [Connections]: <https://www.nytimes.com/games/connections>
