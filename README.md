@@ -1,0 +1,136 @@
+# connections.duckdb
+
+**Be wary**: this README contains **spoilers** for the New York Times
+Connections puzzle from 2026-02-25.
+
+[DuckDB][] is already so much fun on its own.  But sometimes the toil of
+crunching entities leaves you needing a little side quest, a diversion.  What
+if you could take a break and play the New York Times connections puzzle, all
+without leaving your DuckDB REPL?
+
+Introducing the first database that lets you play the New York Times
+Connections puzzle: `connections.duckdb`.
+
+## How to play
+
+Open the database, either by downloading it or using the convenient hosted
+version:
+
+```bash
+$ duckdb https://www.tjak.dev/connections.duckdb
+```
+
+```duckdb
+D ATTACH 'https://www.tjak.dev/connections.duckdb' as connections;
+D USE connections;
+```
+
+See today's words:
+
+```
+D select word from todays_words;
+┌────────────┐
+│    word    │
+│  varchar   │
+├────────────┤
+│ JUDAS      │
+│ DRILL      │
+│ QUALITY    │
+│ BUTTERFLY  │
+│ FRENCH     │
+│ BENCH      │
+│ AIR        │
+│ RIPPLE     │
+│ SNAKE      │
+│ SNOWBALL   │
+│ TRAITOR    │
+│ MANNER     │
+│ DOMINO     │
+│ PRINTING   │
+│ IMPRESSION │
+│ TURNCOAT   │
+├────────────┤
+│  16 rows   │
+└────────────┘
+```
+
+See today's words formatted in a 4x4 grid:
+
+```
+D select * from todays_puzzle;
+┌─────────┬──────────┬────────────┬───────────┐
+│  word1  │  word2   │   word3    │   word4   │
+│ varchar │ varchar  │  varchar   │  varchar  │
+├─────────┼──────────┼────────────┼───────────┤
+│ JUDAS   │ DRILL    │ QUALITY    │ BUTTERFLY │
+│ FRENCH  │ BENCH    │ AIR        │ RIPPLE    │
+│ SNAKE   │ SNOWBALL │ TRAITOR    │ MANNER    │
+│ DOMINO  │ PRINTING │ IMPRESSION │ TURNCOAT  │
+└─────────┴──────────┴────────────┴───────────┘
+```
+
+Check a category guess:
+
+```
+D SELECT * from guess_category(['JUDAS', 'DRILL', 'QUALITY', 'BUTTERFLY']);
+```
+
+## How to cheat
+
+See the categories for today's puzzle:
+
+```
+D select title as category, unnest(cards).content as word from todays_categories;
+┌───────────────────────────────────┬────────────┐
+│             category              │    word    │
+│              varchar              │  varchar   │
+├───────────────────────────────────┼────────────┤
+│ BACKSTABBER                       │ JUDAS      │
+│ BACKSTABBER                       │ SNAKE      │
+│ BACKSTABBER                       │ TRAITOR    │
+│ BACKSTABBER                       │ TURNCOAT   │
+│ AURA                              │ AIR        │
+│ AURA                              │ IMPRESSION │
+│ AURA                              │ MANNER     │
+│ AURA                              │ QUALITY    │
+│ KINDS OF CHAIN REACTION "EFFECTS" │ BUTTERFLY  │
+│ KINDS OF CHAIN REACTION "EFFECTS" │ DOMINO     │
+│ KINDS OF CHAIN REACTION "EFFECTS" │ RIPPLE     │
+│ KINDS OF CHAIN REACTION "EFFECTS" │ SNOWBALL   │
+│ ___ PRESS                         │ BENCH      │
+│ ___ PRESS                         │ DRILL      │
+│ ___ PRESS                         │ FRENCH     │
+│ ___ PRESS                         │ PRINTING   │
+├───────────────────────────────────┴────────────┤
+│ 16 rows                              2 columns │
+└────────────────────────────────────────────────┘
+```
+
+See the categories for the puzzle from date `2026-02-26`:
+
+```
+D select title as category, unnest(cards).content as word from connections_categories('2026-02-26');
+┌──────────────────────────┬───────────────────┐
+│         category         │       word        │
+│         varchar          │      varchar      │
+├──────────────────────────┼───────────────────┤
+│ PIVOTAL POINT            │ CROSSROADS        │
+│ PIVOTAL POINT            │ LANDMARK          │
+│ PIVOTAL POINT            │ MILESTONE         │
+│ PIVOTAL POINT            │ WATERSHED         │
+│ GREEN THINGS             │ GRASSHOPPER       │
+│ GREEN THINGS             │ SHAMROCK          │
+│ GREEN THINGS             │ STATUE OF LIBERTY │
+│ GREEN THINGS             │ WASABI            │
+│ ELEMENTS OF JOKE-TELLING │ CALLBACK          │
+│ ELEMENTS OF JOKE-TELLING │ PUNCHLINE         │
+│ ELEMENTS OF JOKE-TELLING │ SETUP             │
+│ ELEMENTS OF JOKE-TELLING │ TIMING            │
+│ "___ PLEASE"             │ ATTENTION         │
+│ "___ PLEASE"             │ CHECK             │
+│ "___ PLEASE"             │ DRUMROLL          │
+│ "___ PLEASE"             │ PRETTY            │
+├──────────────────────────┴───────────────────┤
+│ 16 rows                            2 columns │
+└──────────────────────────────────────────────┘
+```
