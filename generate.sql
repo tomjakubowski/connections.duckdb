@@ -31,7 +31,6 @@ CREATE OR REPLACE MACRO
     connections_ymd_today() AS
         connections_ymd(current_localtimestamp());
 
-
 CREATE VIEW todays_categories AS
     SELECT * FROM connections_categories(connections_ymd_today());
 
@@ -40,3 +39,15 @@ CREATE VIEW todays_words AS
 
 CREATE VIEW todays_puzzle AS
     SELECT * from connections_puzzle(connections_ymd_today());
+
+CREATE OR REPLACE MACRO
+    guess_category_date(ymd, words_guess) AS TABLE
+        WITH result AS (
+            SELECT title, list_sort(list_transform(cards, x -> x.content)) AS sorted_words
+            FROM connections_categories(ymd) WHERE
+            sorted_words = list_sort(words_guess)
+        ) SELECT title FROM result;
+
+CREATE OR REPLACE MACRO
+    guess_category_today(words_guess) AS TABLE
+        SELECT * from guess_category_date(connections_ymd_today(), words_guess);
