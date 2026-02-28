@@ -1,7 +1,7 @@
 # connections.duckdb
 
 **Be wary**: this README contains **spoilers** for the New York Times
-Connections puzzle from `2026-02-27` in `America/New_York` time.
+Connections puzzle for 2026-02-26 and 2026-02-27 in America/New_York time.
 
 [DuckDB][] is already more fun than a barrel of ducks on its own.  But
 sometimes the toil of crunching entities leaves you wanting a little side
