@@ -4,7 +4,7 @@ CREATE OR REPLACE MACRO
 
 CREATE OR REPLACE MACRO
     connections_categories(ymd) AS TABLE
-        SELECT unnest(categories, recursive := true) from connections_data(ymd);
+        SELECT unnest(categories, recursive := true), ['🟨', '🟩', '🟦', '🟪'][generate_subscripts(categories, 1)] as emoji from connections_data(ymd);
 
 CREATE OR REPLACE MACRO
     connections_words(ymd) AS TABLE
