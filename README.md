@@ -180,6 +180,14 @@ attached to the database allows the connected user or agent to play the
 Connections game locally using data resident in-memory.  User guesses are not
 sent to the New York Times.
 
+## FAQ
+
+### Can I use this from the browser with DuckDB WASM?
+
+Unfortunately, no: the New York Times's API endpoint does not allow for
+cross-origin resource sharing.  You can open the connections.duckdb database,
+but all queries will fail.
+
 ## Development tasks
 
 There is a small test suite written in Python.  To run it:
