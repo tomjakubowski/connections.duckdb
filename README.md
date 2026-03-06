@@ -188,6 +188,12 @@ There is a small test suite written in Python.  To run it:
 uv run pytest
 ```
 
+Or:
+
+```
+make test
+```
+
 # copyright
 
 source code (c) 2026 Tom Jakubowski, published under the MIT license
