@@ -11,6 +11,11 @@ Times Connections] puzzle, all without leaving your DuckDB REPL?
 Introducing the first database that lets you play the New York Times
 Connections puzzle: `connections.duckdb`.
 
+<details open>
+<summary>Demo (approximately 15 seconds)</summary>
+<img src="./demo.gif" alt="an animation demonstrating some of the commands from this README")
+</details>
+
 ## How to play
 
 Start DuckDB with the database loaded, either by downloading a release or using
@@ -72,30 +77,26 @@ D select * from todays_puzzle;
 ```
 
 Check a guess of four words which may make a category.  If incorrect, the query
-will return no rows. If correct, the query will return the category's title.
+will return an `"incorrect"` status as well as the colored tiles representing
+the categories of your guess. If correct, the query will return a `"correct"`
+status and give you the category's title.
 
 ```duckdb
 D SELECT * FROM guess_category_today(['JUDAS', 'DRILL', 'QUALITY', 'BUTTERFLY']);
-┌─────────┐
-│  title  │
-│ varchar │
-├─────────┤
-│ 0 rows  │
-└─────────┘
+┌───────────┬──────────┬──────────┐
+│  status   │  emoji   │ category │
+│  varchar  │ varchar  │ varchar  │
+├───────────┼──────────┼──────────┤
+│ incorrect │ 🟨🟪🟩🟦 │ NULL     │
+└───────────┴──────────┴──────────┘
 D SELECT * FROM guess_category_today(['IMPRESSION', 'AIR', 'QUALITY', 'MANNER']);
-┌─────────┐
-│  title  │
-│ varchar │
-├─────────┤
-│ AURA    │
-└─────────┘
+┌─────────┬──────────┬──────────┐
+│ status  │  emoji   │ category │
+│ varchar │ varchar  │ varchar  │
+├─────────┼──────────┼──────────┤
+│ correct │ 🟩🟩🟩🟩 │ AURA     │
+└─────────┴──────────┴──────────┘┘
 ```
-
-Play a limited selection of historical games with these table macros, where
-`ymd` is a string like `"2025-03-04"`.
-    - `connections_words(ymd)`
-    - `connections_puzzle(ymd)`
-    - `guess_category_date(ymd, guess)`
 
 You're on your own to keep the score and keep yourself honest. Check back soon
 for automated scorekeeping!
@@ -159,6 +160,15 @@ D select title as category, unnest(cards).content as word from connections_categ
 │ 16 rows                            2 columns │
 └──────────────────────────────────────────────┘
 ```
+
+## Play historical games
+
+Play a selection of historical games using these table macros.  The `ymd`
+argument should be an ISO 8601-formatted date like `"2026-02-26"`.
+- `SELECT * FROM connections_words(ymd)`
+- `SELECT * FROM connections_puzzle(ymd)`
+- `SELECT * FROM guess_category_date(ymd, guess)`
+
 
 ## How it works (data disclaimer)
 
