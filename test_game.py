@@ -91,13 +91,13 @@ def test_guess_invalid_not_in_word_list(execute: Execute):
 
 
 def test_guess_incorrect(execute: Execute):
-    guess = ["MOP", "DAISY", "MAT","BUCKET"]  # things you might wear on your head
+    guess = ["DEWY", "MOP", "BUCKET", "DAISY"]  # ____ HEAD
     result = execute(
         "SELECT * FROM guess_category_date($ymd, $guess)",
         {**TESTPUZ_VARS, "guess": guess},
     )
     assert result["status"] == ["incorrect"]
-    assert result["emoji"] == ["🟩🟦🟩🟪"] # this is failing! returning in the wrong order
+    assert result["emoji"] == ["🟨🟩🟦🟪"]
 
 
 def test_guess_correct(execute: Execute):

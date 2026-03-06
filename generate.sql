@@ -43,11 +43,11 @@ CREATE OR REPLACE VIEW todays_puzzle AS
 CREATE OR REPLACE MACRO
     guess_category_date(ymd, words_guess) AS TABLE
         WITH guess AS (
-            SELECT unnest(words_guess) AS word
+            SELECT unnest(words_guess) as word, generate_subscripts(words_guess, 1) AS guess_idx
         ), cat_words AS (
             SELECT title AS category, emoji, unnest(cards).content AS word FROM connections_categories(ymd)
         ), result AS (
-            SELECT guess.word, emoji, category FROM guess INNER JOIN cat_words ON cat_words.word = guess.word
+            SELECT guess.word, emoji, category FROM guess INNER JOIN cat_words ON cat_words.word = guess.word ORDER BY guess_idx ASC
         ), display AS (
             SELECT coalesce(string_agg(result.emoji, ''), '') AS emoji FROM result
         ), cats AS (
