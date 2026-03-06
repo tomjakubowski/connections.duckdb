@@ -177,7 +177,8 @@ contains code, in the form of DuckDB-flavored SQL macros and views, which
 provide convenient access to the game's publicly accessible data feed through
 DuckDB's `read_json` function. Invoking this code from a DuckDB connection
 attached to the database allows the connected user or agent to play the
-Connections game locally using data resident in-memory.
+Connections game locally using data resident in-memory.  User guesses are not
+sent to the New York Times.
 
 ## Development tasks
 
