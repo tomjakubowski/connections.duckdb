@@ -3,9 +3,9 @@
 **Be wary**: this README contains **spoilers** for the New York Times
 Connections puzzle for 2026-02-26 and 2026-02-27 in America/New_York time.
 
-[DuckDB][] is already more fun than a barrel of ducks.  But sometimes the toil
+[DuckDB][] is already more fun than a barrel of ducks. But sometimes the toil
 of crunching entities leaves you wanting a little side quest, a diversion from
-your data destination.  What if you could take a break and play the [New York
+your data destination. What if you could take a break and play the [New York
 Times Connections] puzzle, all without leaving your DuckDB REPL?
 
 Introducing the first database that lets you play the New York Times
@@ -71,9 +71,8 @@ D select * from todays_puzzle;
 └─────────┴──────────┴────────────┴───────────┘
 ```
 
-Group four words into a category, and then check your guess.  If incorrect, the
-query will return no rows.  If correct, the query will return the category's
-title.
+Check a guess of four words which may make a category.  If incorrect, the query
+will return no rows. If correct, the query will return the category's title.
 
 ```duckdb
 D SELECT * FROM guess_category_today(['JUDAS', 'DRILL', 'QUALITY', 'BUTTERFLY']);
@@ -92,7 +91,13 @@ D SELECT * FROM guess_category_today(['IMPRESSION', 'AIR', 'QUALITY', 'MANNER'])
 └─────────┘
 ```
 
-You're on your own to keep the score and keep yourself honest.  Check back soon
+Play a limited selection of historical games with these table macros, where
+`ymd` is a string like `"2025-03-04"`.
+    - `connections_words(ymd)`
+    - `connections_puzzle(ymd)`
+    - `guess_category_date(ymd, guess)`
+
+You're on your own to keep the score and keep yourself honest. Check back soon
 for automated scorekeeping!
 
 ## How to cheat
@@ -157,10 +162,10 @@ D select title as category, unnest(cards).content as word from connections_categ
 
 ## How it works (data disclaimer)
 
-`connections.duckdb` contains no data from the New York Times.  Instead, it
+`connections.duckdb` contains no data from the New York Times. Instead, it
 contains code, in the form of DuckDB-flavored SQL macros and views, which
 provide convenient access to the game's publicly accessible data feed through
-DuckDB's `read_json` function.  Invoking this code from a DuckDB connection
+DuckDB's `read_json` function. Invoking this code from a DuckDB connection
 attached to the database allows the connected user or agent to play the
 Connections game locally using data resident in-memory.
 
@@ -171,6 +176,6 @@ source code (c) 2026 Tom Jakubowski, published under the MIT license
 I am a happy player and admirer of the [Connections] game which is owned by the
 New York Times and edited by Wyna Liu.
 
-[DuckDB]: <https://duckdb.org/>
-[New York Times Connections]: <https://www.nytimes.com/games/connections>
-[Connections]: <https://www.nytimes.com/games/connections>
+[DuckDB]: https://duckdb.org/
+[New York Times Connections]: https://www.nytimes.com/games/connections
+[Connections]: https://www.nytimes.com/games/connections
