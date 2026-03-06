@@ -28,7 +28,7 @@ TESTPUZ_WORD_LIST = [
 
 @pytest.fixture
 def conn():
-    return duckdb.connect("connections.duckdb")
+    return duckdb.connect("connections.duckdb", read_only=True)
 
 
 Execute = Callable[[str, dict[str, Any]], dict[str, Any]]
