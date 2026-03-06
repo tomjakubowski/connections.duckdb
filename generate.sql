@@ -47,30 +47,28 @@ CREATE OR REPLACE MACRO
         ), cat_words AS (
             SELECT title AS category, emoji, unnest(cards).content AS word FROM connections_categories(ymd)
         ), result AS (
+            SELECT guess.word, emoji, category FROM guess INNER JOIN cat_words ON cat_words.word = guess.word
         ), display AS (
-            SELECT coalesce(string_agg(cat_words.emoji, ''), '') AS emoji from guess INNER JOIN cat_words ON cat_words.word = guess.word
+            SELECT coalesce(string_agg(result.emoji, ''), '') AS emoji FROM result
+        ), cats AS (
+            SELECT count(DISTINCT result.category) AS num_categories, any_value(result.category) AS category FROM result
         )
-        -- invalid: user must guess 4 distinct words
-        SELECT * FROM VALUES ('invalid_not_four_words', NULL, NULL) AS t(status, emoji, category) WHERE len(list_distinct(words_guess)) != 4
-        UNION ALL
-        -- invalid: user's guesses must all be in the word list
         SELECT
-            'invalid_not_in_word_list' AS status, NULL::varchar AS emoji, NULL::varchar AS category
-            FROM result
-            WHERE len(list_distinct(words_guess)) == 4 AND length_grapheme(display.emoji) != 4
-        UNION ALL
-        -- incorrect: guesses were not all in same category
-        SELECT
-            'incorrect' AS status, result.emoji, NULL::varchar AS category
-            FROM result
-            WHERE len(list_distinct(words_guess)) == 4 AND length_grapheme(display.emoji) == 4;
-
-        -- SELECT "invalid" AS status, NULL AS emoji, NULL AS category WHERE len(words_guess) != 4;kku
-            -- WITH result AS (
-            --     SELECT title, list_sort(list_transform(cards, x -> x.content)) AS sorted_words
-            --     FROM connections_categories(ymd) WHERE
-            --     sorted_words = list_sort(words_guess)
-            -- ) SELECT title FROM result
+            CASE
+                WHEN len(list_distinct(words_guess)) != 4 THEN 'invalid_not_four_words'
+                WHEN length_grapheme(display.emoji) != 4 THEN 'invalid_not_in_word_list'
+                WHEN cats.num_categories != 1 THEN 'incorrect'
+                ELSE 'correct'
+            END AS status,
+            CASE
+                WHEN len(list_distinct(words_guess)) != 4 THEN NULL
+                ELSE display.emoji
+            END AS emoji,
+            CASE
+                WHEN cats.num_categories = 1 AND len(list_distinct(words_guess)) = 4 AND length_grapheme(display.emoji) = 4 THEN cats.category
+                ELSE NULL
+            END AS category
+        FROM display, cats;
 
 CREATE OR REPLACE MACRO
     guess_category_today(words_guess) AS TABLE

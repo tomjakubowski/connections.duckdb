@@ -169,6 +169,14 @@ DuckDB's `read_json` function. Invoking this code from a DuckDB connection
 attached to the database allows the connected user or agent to play the
 Connections game locally using data resident in-memory.
 
+## Development tasks
+
+There is a small test suite written in Python.  To run it:
+
+```
+uv run pytest
+```
+
 # copyright
 
 source code (c) 2026 Tom Jakubowski, published under the MIT license

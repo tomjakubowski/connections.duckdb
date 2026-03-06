@@ -88,3 +88,27 @@ def test_guess_invalid_not_in_word_list(execute: Execute):
             {**TESTPUZ_VARS, "guess": guess},
         )
         assert result["status"] == ["invalid_not_in_word_list"]
+
+
+def test_guess_incorrect(execute: Execute):
+    guess = ["MOP", "DAISY", "MAT","BUCKET"]  # things you might wear on your head
+    result = execute(
+        "SELECT * FROM guess_category_date($ymd, $guess)",
+        {**TESTPUZ_VARS, "guess": guess},
+    )
+    assert result["status"] == ["incorrect"]
+    assert result["emoji"] == ["🟩🟦🟩🟪"] # this is failing! returning in the wrong order
+
+
+def test_guess_correct(execute: Execute):
+    guess1 = ["MOP", "THATCH", "MAT", "TANGLE"]
+    guess2 = sorted(guess1)  # try in another order too
+    assert guess1 != guess2
+    for guess in [guess1, guess2]:
+        result = execute(
+            "SELECT * FROM guess_category_date($ymd, $guess)",
+            {**TESTPUZ_VARS, "guess": guess},
+        )
+        assert result["status"] == ["correct"]
+        assert result["emoji"] == ["🟩🟩🟩🟩"]
+        assert result["category"] == ["MESS OF HAIR"]
